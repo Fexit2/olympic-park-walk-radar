@@ -1,0 +1,25 @@
+{
+  "source": {
+    "dataset": "올림픽공원 생태공원 갤러리",
+    "provider": "한국체육산업개발주식회사",
+    "sourcePage": "https://www.data.go.kr/data/15056581/openapi.do",
+    "apiPage": "https://www.culture.go.kr/data/openapi/openapiView.do",
+    "format": "XML",
+    "isSample": true,
+    "updatedAt": "2026-11-16T19:30:00+09:00",
+    "confirmed": ["식물사진", "식물명", "URL", "2025년 6월 기준 264건"],
+    "assumed": ["사진 경로가 절대 URL로 오는지 상대 경로로 오는지는 명세서 확인 대상"],
+    "note": "9건만 담은 시연용 표본이다. 제목·식물명은 기관 홈페이지 생태공원 갤러리(2026-11-16 조회, 전체 268건)에 올라온 게시물에서 가져왔다. 사진은 화면에 싣지 않고 원문 링크로만 연결한다."
+  },
+  "items": [
+    { "식물명": "노랑코스모스", "제목": "몽촌뜰 노랑코스모스", "식물사진": "", "URL": "https://www.ksponco.or.kr/olympicpark/gallery.es?mid=a20404000000&bid=0024", "촬영시기": "2026-09" },
+    { "식물명": "야생화", "제목": "야생화 학습장", "식물사진": "", "URL": "https://www.ksponco.or.kr/olympicpark/gallery.es?mid=a20404000000&bid=0024", "촬영시기": "2026-09" },
+    { "식물명": "코스모스", "제목": "가을 몽촌뜰", "식물사진": "", "URL": "https://www.ksponco.or.kr/olympicpark/gallery.es?mid=a20404000000&bid=0024", "촬영시기": "2023-11" },
+    { "식물명": "들국화", "제목": "가을 들꽃마루", "식물사진": "", "URL": "https://www.ksponco.or.kr/olympicpark/gallery.es?mid=a20404000000&bid=0024", "촬영시기": "2023-10" },
+    { "식물명": "복사나무", "제목": "산책로 복사꽃", "식물사진": "", "URL": "https://www.ksponco.or.kr/olympicpark/gallery.es?mid=a20404000000&bid=0024", "촬영시기": "2023-10" },
+    { "식물명": "자작나무", "제목": "조각의숲 자작나무 군락지", "식물사진": "", "URL": "https://www.ksponco.or.kr/olympicpark/gallery.es?mid=a20404000000&bid=0024", "촬영시기": "2023-06" },
+    { "식물명": "장미", "제목": "장미광장 봄 개화", "식물사진": "", "URL": "https://www.ksponco.or.kr/olympicpark/gallery.es?mid=a20404000000&bid=0024", "촬영시기": "2023-06" },
+    { "식물명": "코스모스", "제목": "봄 몽촌뜰", "식물사진": "", "URL": "https://www.ksponco.or.kr/olympicpark/gallery.es?mid=a20404000000&bid=0024", "촬영시기": "2023-05" },
+    { "식물명": "꽃창포", "제목": "뜰꽃마루", "식물사진": "", "URL": "https://www.ksponco.or.kr/olympicpark/gallery.es?mid=a20404000000&bid=0024", "촬영시기": "2023-05" }
+  ]
+}

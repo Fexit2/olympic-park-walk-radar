@@ -1,0 +1,86 @@
+{
+  "source": {
+    "dataset": "올림픽공원 공연정보",
+    "provider": "한국체육산업개발주식회사",
+    "sourcePage": "https://www.data.go.kr/data/3037877/openapi.do",
+    "apiPage": "https://www.culture.go.kr/data/openapi/openapiView.do?id=96",
+    "format": "XML",
+    "isSample": true,
+    "updatedAt": "2026-11-16T19:30:00+09:00",
+    "confirmed": ["행사명", "행사기간", "행사장소", "홈페이지URL", "2026년 6월 기준 2,592건"],
+    "assumed": ["행사시간(회차별 공연 시각)은 명세서 확인이 필요한 추가 필드다"],
+    "note": "값은 기관 홈페이지 일정안내(2026-11-16 조회)에 올라온 11월 공연·행사를 그대로 옮겼다. API 응답으로 받은 것은 아니다."
+  },
+  "items": [
+    {
+      "행사명": "2026-27 로이킴 LIVE TOUR [R:O:Y] in SEOUL",
+      "행사기간": "2026-11-21 ~ 2026-11-22",
+      "행사시간": "11.21(토) 18:00 / 11.22(일) 17:00",
+      "행사장소": "KSPO DOME(올림픽체조경기장)",
+      "홈페이지URL": "https://www.ksponco.or.kr/olympicpark/menu.es?mid=a20301010100"
+    },
+    {
+      "행사명": "[서울] 2026 조용필 ＆ 위대한탄생 콘서트",
+      "행사기간": "2026-11-27 ~ 2026-11-29",
+      "행사시간": "11.27(금) 19:00 / 11.28(토) 18:00 / 11.29(일) 17:00",
+      "행사장소": "KSPO DOME(올림픽체조경기장)",
+      "홈페이지URL": "https://www.ksponco.or.kr/olympicpark/menu.es?mid=a20301010100"
+    },
+    {
+      "행사명": "2026 다이나믹 듀오 단독 콘서트 ＂가끔씩 오래 보자＂ - 서울",
+      "행사기간": "2026-11-27 ~ 2026-11-29",
+      "행사시간": "11.27(금) 20:00 / 11.28(토) 18:00 / 11.29(일) 17:00",
+      "행사장소": "올림픽홀",
+      "홈페이지URL": "https://www.ksponco.or.kr/olympicpark/menu.es?mid=a20301010100"
+    },
+    {
+      "행사명": "최현우 30주년 기념 공연 - LEGACY",
+      "행사기간": "2026-11-28 ~ 2027-01-03",
+      "행사시간": "수·목·금 19:30 / 토 15:00·19:00 / 일 14:00",
+      "행사장소": "올림픽공원 우리금융아트홀(올림픽역도경기장)",
+      "홈페이지URL": "https://www.ksponco.or.kr/olympicpark/menu.es?mid=a20301010100"
+    },
+    {
+      "행사명": "2026 CRAVITY CONCERT 〈SONOROUS〉 in Seoul",
+      "행사기간": "2026-11-14 ~ 2026-11-15",
+      "행사시간": "11.14(토) 18:00 / 11.15(일) 16:00",
+      "행사장소": "올림픽홀",
+      "홈페이지URL": "https://www.ksponco.or.kr/olympicpark/menu.es?mid=a20301010100"
+    },
+    {
+      "행사명": "TOMORROW X TOGETHER WORLD TOUR 〈STEAL THE WIND〉 IN SEOUL",
+      "행사기간": "2026-11-13 ~ 2026-11-15",
+      "행사시간": "11.13(금) 19:00 / 11.14(토) 18:00 / 11.15(일) 17:00",
+      "행사장소": "KSPO DOME(올림픽체조경기장)",
+      "홈페이지URL": "https://www.ksponco.or.kr/olympicpark/menu.es?mid=a20301010100"
+    },
+    {
+      "행사명": "코리아발레스타즈 호두까기인형",
+      "행사기간": "2026-11-07 ~ 2026-11-08",
+      "행사시간": "11.7(토) 16:00 / 11.8(일) 16:00",
+      "행사장소": "올림픽공원 우리금융아트홀(올림픽역도경기장)",
+      "홈페이지URL": "https://www.ksponco.or.kr/olympicpark/menu.es?mid=a20301010100"
+    },
+    {
+      "행사명": "2026 박재정 콘서트 - 기록",
+      "행사기간": "2026-11-07 ~ 2026-11-08",
+      "행사시간": "11.7(토) 18:00 / 11.8(일) 17:00",
+      "행사장소": "올림픽홀",
+      "홈페이지URL": "https://www.ksponco.or.kr/olympicpark/menu.es?mid=a20301010100"
+    },
+    {
+      "행사명": "EXO PLANET #6 - EXhOrizon [dot]",
+      "행사기간": "2026-11-06 ~ 2026-11-08",
+      "행사시간": "금 19:00 / 토 18:00 / 일 17:00",
+      "행사장소": "KSPO DOME(올림픽체조경기장)",
+      "홈페이지URL": "https://www.ksponco.or.kr/olympicpark/menu.es?mid=a20301010100"
+    },
+    {
+      "행사명": "2026 WOODZ WORLD TOUR Archive. 1 : Completed",
+      "행사기간": "2026-10-31 ~ 2026-11-01",
+      "행사시간": "토 18:00 / 일 17:00",
+      "행사장소": "KSPO DOME(올림픽체조경기장)",
+      "홈페이지URL": "https://www.ksponco.or.kr/olympicpark/menu.es?mid=a20301010100"
+    }
+  ]
+}
