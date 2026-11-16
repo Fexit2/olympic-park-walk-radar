@@ -4,6 +4,8 @@
 올림픽공원에 가기 전에 **오늘 걸어도 되는지 · 어느 코스로 걸을지 · 어느 문으로 들어갈지**를
 네 화면(레이더 · 지도 · 도감 · 안내)에서 확인하도록 만들었습니다.
 
+**시연용 라이브: https://fexit2.github.io/olympic-park-walk-radar/** (GitHub Pages)
+
 바로 열기: `index.html` (서버 없이 더블클릭해도 동작) · 정적 호스팅에 그대로 올려도 됩니다.
 
 ---
@@ -114,6 +116,8 @@ prototype/
    └─ preview-test.py       로컬 서버 + 실제 브라우저 검증(콘솔·탭·지도·폴백·스크린샷)
 ```
 
+이 저장소에는 **실행에 필요한 파일만** 담았습니다(개발용 `tools/` 스크립트는 제출 원본 폴더에만 있음).
+
 `data/*.json` 을 고쳤다면 `python3 tools/build-bundle.py` 를 다시 실행하세요(화면은
 `data-bundle.js` 를 읽습니다). 지도 좌표를 다시 만들려면 `python3 tools/fetch-geo.py`
 (네트워크 필요, 결과 `geo.json` 은 저장소에 커밋).
@@ -204,6 +208,9 @@ data.go.kr 오픈API 5종은 모두 **API 유형 LINK** 라서 포털에 요청/
 
 - **정적 사이트**입니다. Cloudflare Pages(빌드 없음, 출력 폴더 = 이 폴더), GitHub Pages, 어떤
   웹 서버든 그대로 올리면 됩니다.
+- **현재 배포**: GitHub Pages — https://fexit2.github.io/olympic-park-walk-radar/ · Pages 소스
+  브랜치는 `gh-pages`(루트)이고 `main` 과 파일이 같습니다. 고칠 때는 `main` 에 커밋한 뒤
+  `gh-pages` 도 같은 커밋으로 밀면 다시 빌드됩니다.
 - 로컬 확인: `python3 -m http.server 8000` → `http://localhost:8000`
 - 서버 없이: `index.html` 더블클릭(`file://`)도 동작합니다(`data-bundle.js` + 로컬 Leaflet).
 - 지도 타일은 `tile.openstreetmap.org` 를 씁니다(키 불필요). 타일이 막히는 심사장 네트워크에서는
