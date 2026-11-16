@@ -1,7 +1,8 @@
 /* =====================================================================
-   올림픽공원 산책 레이더 — app.js  (v3 · 지도·그래픽 중심 개편)
+   지금공원 — app.js  (v3 · 지도·그래픽 중심 개편)
    · 데이터는 api-config.js 의 RadarAPI / data-bundle.js 만 읽는다.
-   · 화면은 4개 탭(레이더·지도·도감·안내)이고, 상세는 바텀시트로 내린다.
+   · 화면은 4개 탭(지금·지도·도감·안내)이고, 상세는 바텀시트로 내린다.
+   · 상단 공원 칩에서 공원을 고른다 — 지금은 올림픽공원 데이터로 열려 있다.
    · 지도는 Leaflet(로컬 vendor) + OSM 타일. 타일이 막히면 자체 SVG 공원 지도로 그린다.
    ===================================================================== */
 (function () {
@@ -27,12 +28,25 @@
 
   var state = {
     mode: 'clear',
+    parkId: 'olympic',
     view: 'radar',
     course: null,
     gate: null,
     mapCard: 'course',
     guide: 'event'
   };
+
+  /* 공원 목록 — 화면과 계산식은 그대로 두고 데이터만 공원별로 갈아 끼우는 구조.
+     지금은 올림픽공원만 공공데이터 8종과 연결되어 실데이터로 열려 있다. */
+  var PARKS = [
+    { id: 'olympic', name: '올림픽공원', meta: '한국체육산업개발 공공데이터 8종 연동', live: true },
+    { id: 'misa', name: '미사경정공원', meta: '같은 기관 데이터로 연동 준비 중', live: false },
+    { id: 'sports', name: '분당·일산 올림픽스포츠센터', meta: '시설·이용 데이터 표준 스키마 연계 예정', live: false }
+  ];
+  function parkById(id) {
+    for (var i = 0; i < PARKS.length; i++) if (PARKS[i].id === id) return PARKS[i];
+    return null;
+  }
 
   /* ------------------------------------------------------------------ */
   /* 도구                                                              */
@@ -79,7 +93,8 @@
     info: '<circle cx="12" cy="12" r="8.6"/><path d="M12 11.2V16M12 8.1h.01"/>',
     search: '<circle cx="11" cy="11" r="6.4"/><path d="m15.8 15.8 4 4"/>',
     leaf: '<path d="M19 5c0 8-5.5 14-14 14 0-8 6-14 14-14Z"/><path d="M5 19c2.5-5 6-8.5 10.5-10.5"/>',
-    rain: '<path d="M7.5 15.5h9a3.6 3.6 0 0 0 .4-7.2 5.2 5.2 0 0 0-9.9-1.3 4 4 0 0 0 .5 8.5Z"/><path d="M8.5 18.4l-.8 2M12 18.4l-.8 2M15.5 18.4l-.8 2"/>'
+    rain: '<path d="M7.5 15.5h9a3.6 3.6 0 0 0 .4-7.2 5.2 5.2 0 0 0-9.9-1.3 4 4 0 0 0 .5 8.5Z"/><path d="M8.5 18.4l-.8 2M12 18.4l-.8 2M15.5 18.4l-.8 2"/>',
+    check: '<path d="m5 12.6 4.6 4.6L19 7.4"/>'
   };
   function ico(d, cls) {
     return '<svg class="' + (cls || '') + '" viewBox="0 0 24 24" fill="none" stroke="currentColor"'
@@ -982,6 +997,8 @@
   }
   function closeSheet() {
     sheet.classList.remove('is-open');
+    var chip = $('#btn-park');
+    if (chip) chip.setAttribute('aria-expanded', 'false');
     if (sheetTimer) clearTimeout(sheetTimer);
     sheetTimer = setTimeout(function () {
       sheetTimer = null;
@@ -993,16 +1010,53 @@
   }
   $$('#sheet [data-close]').forEach(function (b) { b.addEventListener('click', closeSheet); });
 
+  function openParkSheet() {
+    var now = parkById(state.parkId) || PARKS[0];
+    var html = '<p class="sheet__p">공원을 고르면 그 공원의 날씨·혼잡도·도감·안내로 바뀝니다. 지금은 <b>'
+      + esc(now.name) + '</b> 데이터로 열려 있어요.</p>';
+    html += '<div class="list parklist">';
+    PARKS.forEach(function (p) {
+      var on = p.id === state.parkId;
+      html += '<button class="row parkrow' + (on ? ' is-on' : '') + '" type="button" data-park="' + esc(p.id) + '"'
+        + (on ? ' aria-current="true"' : '') + '>'
+        + '<span class="row__body"><span class="row__title">' + esc(p.name) + '</span>'
+        + '<span class="row__meta">' + esc(p.meta) + '</span></span>'
+        + '<span class="row__side">'
+        + (on ? '<span class="pill pill--free">보는 중</span>' + ico(ICON.check, 'row__check')
+              : '<span class="pill pill--na">확장 예정</span>')
+        + '</span></button>';
+    });
+    html += '</div>';
+    html += '<p class="sheet__note" id="park-note">공원이 늘어나도 화면과 계산식은 그대로 두고 데이터만 갈아 끼웁니다. 1차 실증은 올림픽공원입니다.</p>';
+    openSheet('공원 선택', html);
+    var chip = $('#btn-park');
+    if (chip) chip.setAttribute('aria-expanded', 'true');
+    $$('#sheet-body [data-park]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var p = parkById(b.getAttribute('data-park'));
+        if (!p) return;
+        if (p.live) { closeSheet(); return; }
+        var n = $('#park-note');
+        if (!n) return;
+        n.classList.remove('is-flash');
+        void n.offsetWidth;
+        n.classList.add('is-flash');
+        n.innerHTML = '<b>' + esc(p.name) + '</b>은 아직 연동 준비 중이에요. 지금은 올림픽공원 데이터로 열려 있습니다.';
+      });
+    });
+  }
+
   function openInfoSheet() {
     var w = D.weather && D.weather.source;
-    var html = '<p class="sheet__p">화면의 숫자는 <b>기상청 단기예보 계산식</b>과 <b>한국체육산업개발 공공데이터</b>로만 만듭니다. 점수를 손으로 넣지 않습니다.</p>';
+    var html = '<p class="sheet__p"><b>지금공원</b>은 고른 공원의 날씨·혼잡도·코스·안내를 한 화면에 보여 주는 서비스입니다. 지금은 1차 실증 공원인 <b>올림픽공원</b> 데이터로 열려 있고, 상단의 공원 이름을 누르면 다른 공원의 준비 상황을 볼 수 있습니다.</p>';
+    html += '<p class="sheet__p">화면의 숫자는 <b>기상청 단기예보 계산식</b>과 <b>한국체육산업개발 공공데이터</b>로만 만듭니다. 점수를 손으로 넣지 않습니다.</p>';
     html += '<dl class="kv"><dt>산책 지수</dt><dd>100점에서 기온·강수·하늘·바람·3시간 강수확률을 항목별로 깎고 5점 단위로 반올림합니다.</dd></dl>';
     html += '<dl class="kv"><dt>주차 등급</dt><dd>실시간 구역 대수의 30분 이동평균을 이력 혼잡도로 만든 통상 대수와 비교해 −15% 이하 여유 / +15% 이상 붐빔으로 나눕니다.</dd></dl>';
     html += '<dl class="kv"><dt>코스 거리</dt><dd>OpenStreetMap 보행로(산책로·계단·공원도로) 위 최단 경로를 계산한 값입니다. 손으로 그린 선이 아닙니다.</dd></dl>';
     html += '<dl class="kv"><dt>데이터</dt><dd>주차장 혼잡도 699행(2026-08-12까지) · 잔디시설 8행 · FAQ 49건은 실데이터, 실시간 주차·날씨·공연·수목·장미는 API 규격에 맞춘 샘플입니다.</dd></dl>';
     html += '<div class="sheet__note"><b>한계</b> — 실시간 주차현황에는 구역별 주차대수만 있고 총 면수가 없어 포화율은 계산하지 않습니다. 서2문(올림픽파크텔 주차장)은 CSV 에 구역 코드가 없어 등급을 내지 않고 “자료 없음”으로 둡니다. 혼잡도 이력 최신값은 ' + esc((D.parkingHistory && D.parkingHistory.meta.dateRange[1]) || '-') + ' 입니다.'
       + (w && w.isSample ? ' 날씨는 ' + esc(w.updatedAt.slice(0, 16).replace('T', ' ')) + ' 기준 샘플입니다.' : '') + '</div>';
-    html += '<div class="sheet__actions"><a class="btn btn--ghost" href="mailto:data@ksponco.or.kr?subject=%5B%EC%82%B0%EC%B1%85%20%EB%A0%88%EC%9D%B4%EB%8D%94%5D%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%98%A4%EB%A5%98">데이터 오류 신고</a></div>';
+    html += '<div class="sheet__actions"><a class="btn btn--ghost" href="mailto:data@ksponco.or.kr?subject=%5B%EC%A7%80%EA%B8%88%EA%B3%B5%EC%9B%90%5D%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%98%A4%EB%A5%98">데이터 오류 신고</a></div>';
     openSheet('데이터·계산', html);
   }
 
@@ -1210,6 +1264,7 @@
       });
     });
     $('#btn-info').addEventListener('click', openInfoSheet);
+    $('#btn-park').addEventListener('click', openParkSheet);
     $('#map-recenter').addEventListener('click', function () {
       if (mapMode === 'svg') return;
       if (map) map.fitBounds(window.L.latLngBounds((GEO.park || []).map(function (p) { return [p[0], p[1]]; })).pad(0.06));
