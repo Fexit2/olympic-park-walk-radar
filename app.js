@@ -47,6 +47,11 @@
     for (var i = 0; i < PARKS.length; i++) if (PARKS[i].id === id) return PARKS[i];
     return null;
   }
+  /* 받침에 맞춰 조사를 붙인다 (센터는 '는', 공원은 '은') */
+  function josa(w, withJong, withoutJong) {
+    var c = String(w).charCodeAt(String(w).length - 1);
+    return w + (c >= 0xAC00 && c <= 0xD7A3 && (c - 0xAC00) % 28 > 0 ? withJong : withoutJong);
+  }
 
   /* ------------------------------------------------------------------ */
   /* 도구                                                              */
@@ -1041,7 +1046,7 @@
         n.classList.remove('is-flash');
         void n.offsetWidth;
         n.classList.add('is-flash');
-        n.innerHTML = '<b>' + esc(p.name) + '</b>은 아직 연동 준비 중이에요. 지금은 올림픽공원 데이터로 열려 있습니다.';
+        n.innerHTML = '<b>' + esc(josa(p.name, '은', '는')) + '</b> 아직 연동 준비 중이에요. 지금은 올림픽공원 데이터로 열려 있습니다.';
       });
     });
   }
